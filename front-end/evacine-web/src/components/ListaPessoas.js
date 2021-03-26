@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Table, Tag, Space, Button, message } from 'antd';
+import PessoaDataService from '../service/PessoaDataService';
 
 const { Column } = Table;
 export default class ListaPessoas extends Component{
@@ -9,6 +10,20 @@ export default class ListaPessoas extends Component{
       pessoas: [],
       message: null,
     }
+  }
+
+  componentDidMount(){
+    this.refreshPessoas();
+  }
+
+  refreshPessoas(){
+    PessoaDataService.retriveAllPessoas()
+    .then(
+      response => {
+        console.log(response);
+        this.setState({pessoas: response.data})
+      }
+    )
   }
 
   render(){
@@ -22,6 +37,7 @@ export default class ListaPessoas extends Component{
             <Column title="TELEFONE" dataIndex="telefone" key="telefone" />
             <Column title="EMAIL" dataIndex="email" key="email" />
             <Column title="VACINADA" dataIndex="isVacinada" key="isVacinada" />
+            <Column title="ATUALIZAR" key="atualizar" />
           </Table>
         </div>
       </div>
