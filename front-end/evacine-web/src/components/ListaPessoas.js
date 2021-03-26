@@ -26,6 +26,15 @@ export default class ListaPessoas extends Component{
     )
   }
 
+  sucessoAlter = (record) => {
+    console.log(record.isVacinada, "1");
+    record.isVacinada = !record.isVacinada;
+    console.log(record.isVacinada, "2");
+    PessoaDataService.updatePessoa(record, record.codigo);
+    message.success('Status alterado com sucesso');
+  }
+ 
+
   render(){
     return(
       <div className="container">
@@ -36,8 +45,10 @@ export default class ListaPessoas extends Component{
             <Column title="CPF" dataIndex="cpf" key="cpf" />
             <Column title="TELEFONE" dataIndex="telefone" key="telefone" />
             <Column title="EMAIL" dataIndex="email" key="email" />
-            <Column title="VACINADA" dataIndex="isVacinada" key="isVacinada" />
-            <Column title="ATUALIZAR" key="atualizar" />
+            <Column title="VACINADA" dataIndex="isVacinada" key="isVacinada" 
+            render={(text, record) => (<p>{String(record.isVacinada)}</p>)}/>
+            <Column title="ATUALIZAR" key="atualizar"  
+            render={(text, record) => (<Button type="primary" onClick={() => this.sucessoAlter(record)}>Alterar Status</Button>)}/>
           </Table>
         </div>
       </div>
