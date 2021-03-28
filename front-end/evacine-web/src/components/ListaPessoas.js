@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Tag, Space, Button, message } from 'antd';
+import { Table, Button, message } from 'antd';
 import PessoaDataService from '../service/PessoaDataService';
 
 const { Column } = Table;
@@ -26,12 +26,13 @@ export default class ListaPessoas extends Component{
     )
   }
 
-  sucessoAlter = (record) => {
+  sucessoAlter = async (record) => {
     console.log(record.isVacinada, "1");
     record.isVacinada = !record.isVacinada;
     console.log(record.isVacinada, "2");
-    PessoaDataService.updatePessoa(record, record.codigo);
+    await PessoaDataService.updatePessoa(record, record.codigo);
     message.success('Status alterado com sucesso');
+    this.refreshPessoas();
   }
  
 
