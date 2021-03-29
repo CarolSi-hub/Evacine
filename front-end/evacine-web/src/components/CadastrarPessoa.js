@@ -6,7 +6,34 @@ const { Option } = Select;
 
 export default class CadastrarPessoa extends Component{
 
+constructor(props){
+    super(props)
+    this.state = {
+      pessoas: [],
+      message: null,
+      pessoa: {
+        nome: '',
+        cpf: '',
+        telefone: '',
+        email: '',
+        idade: '',
+        dataNascimento: '',
+        grupo: null,
+      },
+    }
+  }
+
+  handleAdd(pessoa){    
+    PessoaDataService.cadastrarPessoas(pessoa);
+  }
+
+  handleData({ target: { name, value } }){
+    this.setState({[name]: value})
+  }
+
+
   render(){
+    const { nome, cpf, telefone, email, idade, dataNascimento, grupo } = this.state.pessoa;
     const ddd = [
       61, 62, 64, 65, 66, 67, 
       82, 71, 73, 74, 75, 77,
@@ -49,7 +76,10 @@ export default class CadastrarPessoa extends Component{
         label="Nome Completo"        
       >
         <Input
-        type="text"        
+        type="text" 
+        name="nome"       
+        value={nome}
+        onChange={this.handleData}
         style={{
           width: 100,
         }}
@@ -61,7 +91,10 @@ export default class CadastrarPessoa extends Component{
         label="Cpf"        
       >
         <Input
-        type="text"        
+        type="text"   
+        name="cpf"       
+        value={cpf}
+        onChange={this.handleData}     
         style={{
           width: 100,
         }}
@@ -77,7 +110,10 @@ export default class CadastrarPessoa extends Component{
         label="Idade"        
       >
         <Input
-        type="text"        
+        type="text" 
+        name="idade"       
+        value={idade}
+        onChange={this.handleData}       
         style={{
           width: 100,
         }}
@@ -89,7 +125,10 @@ export default class CadastrarPessoa extends Component{
         label="E-mail"        
       >
         <Input
-        type="email"        
+        type="email"  
+        name="email"       
+        value={email}
+        onChange={this.handleData}      
         style={{
           width: 100,
         }}
@@ -98,16 +137,13 @@ export default class CadastrarPessoa extends Component{
 
        <Form.Item
         name="phone"
-        label="Phone Number"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your phone number!',
-          },
-        ]}
+        label="Phone Number"        
       >
         <Input
-          addonBefore={prefixSelector}
+        addonBefore={prefixSelector}
+        name="telefone"       
+        value={telefone}
+        onChange={this.handleData}
           style={{
             width: '100%',
           }}
@@ -115,7 +151,7 @@ export default class CadastrarPessoa extends Component{
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" onClick={() => this.handleAdd(this.state.pessoa)}>
           Cadastrar
         </Button>
       </Form.Item>

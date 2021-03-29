@@ -11,6 +11,12 @@ class PessoaDataService{
   updatePessoa(pessoa, codigo){
     return axios.put(`${API_URL}pessoas/${codigo}`, pessoa);
   }
+
+ 
+  cadastrarPessoas(pessoa){
+    return axios.post(`${API_URL}pessoas`, pessoa)
+  }
+
 }
 
 export default new PessoaDataService();
