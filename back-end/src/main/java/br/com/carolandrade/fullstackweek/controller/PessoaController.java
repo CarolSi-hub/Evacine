@@ -46,6 +46,7 @@ public class PessoaController {
 		record.setNome(pessoa.getNome());
 		record.setTelefone(pessoa.getTelefone());
 		record.setIdade(pessoa.getIdade());
+		record.setIsVacinada(pessoa.getIsVacinada());
 		return repository.save(record);
 		}).orElse(null);
 		}	
