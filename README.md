@@ -4,8 +4,8 @@
 
 ###Tecnologias:
 
-Back-end: Java/SpringBoot/PostgreSQL
-Front-end: React/JavaScrip lib AntD
-Mobile: React Native
+Back-end: Java/SpringBoot/PostgreSQL<br>
+Front-end: React/JavaScrip lib AntD<br>
+Mobile: React Native<br>
 
-... em construção ....
+<br>... em construção ....
