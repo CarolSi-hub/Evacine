@@ -103,7 +103,15 @@ public class Pessoa {
 	public void setDataNascimento(String dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
+	
+	public GruposPrioridade getGrupo() {
+		return grupo;
+	}
 
+	public void setGrupo(GruposPrioridade grupo) {
+		this.grupo = grupo;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
