@@ -1,39 +1,34 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Form, Input, DatePicker, Button, Select } from 'antd';
+import moment from 'moment';
 import PessoaDataService from '../service/PessoaDataService';
 
 const { Option } = Select;
 
-export default class CadastrarPessoa extends Component{
+export default function CadastrarPessoa() {
 
-constructor(props){
-    super(props)
-    this.state = {
-      pessoas: [],
-      message: null,
-      pessoa: {
-        nome: '',
-        cpf: '',
-        telefone: '',
-        email: '',
-        idade: '',
-        dataNascimento: '',
-        grupo: null,
-      },
-    }
+  const [nome, setNome] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [email, setEmail] = useState('');
+  const [idade, setIdade] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [grupo, setGrupo] = useState(null);
+
+  const handleAdd = async () => {    
+     const pessoa = {
+      nome: nome,
+      cpf: cpf,
+      telefone: telefone,
+      email: email,
+      idade: idade,
+      dataNascimento: dataNascimento,
+      grupo: { codigo :grupo }
+    };
+    console.log(pessoa)
+    await PessoaDataService.cadastrarPessoas(pessoa);
   }
 
-  handleAdd(pessoa){    
-    PessoaDataService.cadastrarPessoas(pessoa);
-  }
-
-  handleData({ target: { name, value } }){
-    this.setState({[name]: value})
-  }
-
-
-  render(){
-    const { nome, cpf, telefone, email, idade, dataNascimento, grupo } = this.state.pessoa;
     const ddd = [
       61, 62, 64, 65, 66, 67, 
       82, 71, 73, 74, 75, 77,
@@ -64,8 +59,12 @@ constructor(props){
     </Form.Item>
   );
 
-    return(
+  const onChangeEvent = (date) => {
+    const dataN = moment(date._d).format("MMM Do YY");
+    setDataNascimento(dataN);
+  }
 
+    return(
       <Form
         name="customized_form_controls"
       layout="inline"
@@ -77,9 +76,8 @@ constructor(props){
       >
         <Input
         type="text" 
-        name="nome"       
         value={nome}
-        onChange={this.handleData}
+        onChange={(event) => setNome(event.target.value)}
         style={{
           width: 100,
         }}
@@ -91,10 +89,9 @@ constructor(props){
         label="Cpf"        
       >
         <Input
-        type="text"   
-        name="cpf"       
+        type="text"       
         value={cpf}
-        onChange={this.handleData}     
+        onChange={(event) => setCpf(event.target.value)}     
         style={{
           width: 100,
         }}
@@ -102,7 +99,8 @@ constructor(props){
       </Form.Item>
 
       <Form.Item name="date-picker" label="Data de Nascimento">
-        <DatePicker />
+        <DatePicker              
+        onChange={(event) => onChangeEvent(event)}/>
       </Form.Item>
 
       <Form.Item
@@ -110,10 +108,9 @@ constructor(props){
         label="Idade"        
       >
         <Input
-        type="text" 
-        name="idade"       
+        type="text"    
         value={idade}
-        onChange={this.handleData}       
+        onChange={(event) => setIdade(event.target.value)}       
         style={{
           width: 100,
         }}
@@ -126,9 +123,23 @@ constructor(props){
       >
         <Input
         type="email"  
-        name="email"       
         value={email}
-        onChange={this.handleData}      
+        onChange={(event) => setEmail(event.target.value)}      
+        style={{
+          width: 100,
+        }}
+      />  
+      </Form.Item>
+
+      <Form.Item
+        name="grupo"
+        label="Grupo"        
+      >
+        <Input
+        type="number"  
+        min="1" max="8"
+        value={grupo}
+        onChange={(event) => setGrupo(event.target.value)}      
         style={{
           width: 100,
         }}
@@ -143,7 +154,7 @@ constructor(props){
         addonBefore={prefixSelector}
         name="telefone"       
         value={telefone}
-        onChange={this.handleData}
+        onChange={(event) => setTelefone(event.target.value)}
           style={{
             width: '100%',
           }}
@@ -151,13 +162,14 @@ constructor(props){
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" onClick={() => this.handleAdd(this.state.pessoa)}>
+        <Button type="primary" 
+        
+        onClick={() => handleAdd()}>
           Cadastrar
         </Button>
       </Form.Item>
 
       </Form>
-    )
-  }
+    )  
 
 }

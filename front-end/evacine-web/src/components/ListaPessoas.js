@@ -20,16 +20,13 @@ export default class ListaPessoas extends Component{
     PessoaDataService.retriveAllPessoas()
     .then(
       response => {
-        console.log(response);
         this.setState({pessoas: response.data})
       }
-    )
+    )   
   }
 
   sucessoAlter = async (record) => {
-    console.log(record.isVacinada, "1");
     record.isVacinada = !record.isVacinada;
-    console.log(record.isVacinada, "2");
     await PessoaDataService.updatePessoa(record, record.codigo);
     message.success('Status alterado com sucesso');
     this.refreshPessoas();
@@ -37,6 +34,7 @@ export default class ListaPessoas extends Component{
  
 
   render(){
+     console.log(this.state.pessoas)
     return(
       <div className="container">
         <h2>PESSOAS CADASTRADAS</h2>
@@ -48,6 +46,8 @@ export default class ListaPessoas extends Component{
             <Column title="EMAIL" dataIndex="email" key="email" />
             <Column title="VACINADA" dataIndex="isVacinada" key="isVacinada" 
             render={(text, record) => (<p>{String(record.isVacinada)}</p>)}/>
+            <Column title="GRUPO" dataIndex="grupo" key="grupo" 
+            render={(text, record) => (<p>{String(record.grupo.codigo)}</p>)}/>
             <Column title="ATUALIZAR" key="atualizar"  
             render={(text, record) => (<Button type="primary" onClick={() => this.sucessoAlter(record)}>Alterar Status</Button>)}/>
           </Table>

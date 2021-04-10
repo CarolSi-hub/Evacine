@@ -17,6 +17,7 @@ class PessoaDataService{
     return axios.post(`${API_URL}pessoas`, pessoa)
   }
 
+
 }
 
 export default new PessoaDataService();
