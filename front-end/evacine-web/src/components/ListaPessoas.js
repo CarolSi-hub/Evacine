@@ -33,8 +33,7 @@ export default class ListaPessoas extends Component{
   }
  
 
-  render(){
-     console.log(this.state.pessoas)
+  render(){     
     return(
       <div className="container">
         <h2>PESSOAS CADASTRADAS</h2>

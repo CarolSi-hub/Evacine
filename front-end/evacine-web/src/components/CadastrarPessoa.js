@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, DatePicker, Button, Select } from 'antd';
 import moment from 'moment';
 import PessoaDataService from '../service/PessoaDataService';
+import GruposDataService from '../service/GruposDataService';
 
 const { Option } = Select;
 
@@ -14,6 +15,7 @@ export default function CadastrarPessoa() {
   const [idade, setIdade] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
   const [grupo, setGrupo] = useState(null);
+  const [grupoDataState, setGrupoDataState] = useState([]);
 
   const handleAdd = async () => {    
      const pessoa = {
@@ -25,9 +27,17 @@ export default function CadastrarPessoa() {
       dataNascimento: dataNascimento,
       grupo: { codigo :grupo }
     };
-    console.log(pessoa)
+    console.log(pessoa);
     await PessoaDataService.cadastrarPessoas(pessoa);
   }
+
+  useEffect(() => { 
+    const getGroupData = async () => {
+    const result = await GruposDataService.retriveAllGrupos();
+    setGrupoDataState(result.data)
+  };
+  getGroupData();
+  }, [])
 
     const ddd = [
       61, 62, 64, 65, 66, 67, 
@@ -135,15 +145,22 @@ export default function CadastrarPessoa() {
         name="grupo"
         label="Grupo"        
       >
-        <Input
-        type="number"  
-        min="1" max="8"
-        value={grupo}
-        onChange={(event) => setGrupo(event.target.value)}      
-        style={{
-          width: 100,
-        }}
-      />  
+        <Select 
+        style={{ width: 120 }} 
+        onChange={()=>setGrupo(value) }>       
+        {grupoDataState.map(grupo => 
+         <Option            
+        value={grupo.codigo}
+        onClick={(event) => setGrupo(event.target.value)}
+        // style={{ width: 200 }}
+        >
+          { grupo.nome }
+        </Option>
+        )}
+        
+        </Select>
+       
+       
       </Form.Item>
 
        <Form.Item
